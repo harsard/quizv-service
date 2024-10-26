@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
 @Component
 public class JwtTokenProvider {
     public static final String TOKEN_TYPE = "JWT";
-    public static final String TOKEN_ISSUER = "goquiz-api";
-    public static final String TOKEN_AUDIENCE = "goquiz-app";
+    public static final String TOKEN_ISSUER = "quizz-api";
+    public static final String TOKEN_AUDIENCE = "quizz-app";
     @Value("${app.jwt.secret}")
     private String jwtSecret;
     @Value("${app.jwt.expiration-in-ms}")

@@ -20,6 +20,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/auth")
@@ -51,7 +56,9 @@ public class AuthController {
         if (!PasswordValidator.check(signupRequest.getPassword())) {
             throw new PasswordTooWeakException("Password must be at least 8 characters long, contain at least one digit, one uppercase letter, one lowercase letter, and one special character");
         }
-
+        if (signupRequest.getProfileImage() != null) {
+            saveProfileImage(signupRequest.getProfileImage(), signupRequest.getUsername());
+        }
         userService.createUser(mapSignUpRequestToUser(signupRequest));
 
         String token = authenticateAndGetToken(signupRequest.getEmail(), signupRequest.getPassword());
@@ -70,5 +77,14 @@ public class AuthController {
         user.setEmail(signUpRequest.getEmail());
         user.setRole(SecurityConfig.USER);
         return user;
+    }
+    private void saveProfileImage(byte[] imageBytes, String username) {
+        try {
+            Path path = Paths.get(System.getProperty ("user.home") + "/Desktop/", username + "_profile.jpg");
+            Files.write(path, imageBytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Could not save profile image.");
+        }
     }
 }

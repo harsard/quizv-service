@@ -15,4 +15,7 @@ public class SignupRequest {
 
     @NotBlank
     private String password;
+
+    private byte[] profileImage;
+
 }

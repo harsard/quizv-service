@@ -17,7 +17,7 @@ public class ScoreService {
 
     public Score saveScore(Score score) {
         Score scoreEntity = null;
-        if(scoreRepository.findByUuid(score.getUuid().toString()).isEmpty()){
+        if(scoreRepository.findByUuid(score.getUuid()).isEmpty()){
              scoreEntity = new Score();
             scoreEntity.setUserId(score.getUserId());
             scoreEntity.setScore(score.getScore());
